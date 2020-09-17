@@ -3,10 +3,10 @@
 
 *** New features
 
- - Initial release (369710f)
+ - Initial release (#369710f)
 
 *** Bugfixes
 
- - Format version correctly, do not throw if VERSION doesn't exist (a59ad12)
+ - Format version correctly, do not throw if VERSION doesn't exist (#a59ad12)
 
 
