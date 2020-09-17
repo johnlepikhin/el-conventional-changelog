@@ -1,4 +1,11 @@
 * Changelog
+** [2020-09-17] v0.2.7
+
+*** Bugfixes
+
+ - Finally fixed breaking changelog issues (2e9f7f9)
+
+
 ** [2020-09-17] v0.2.6
 
 *** Bugfixes
