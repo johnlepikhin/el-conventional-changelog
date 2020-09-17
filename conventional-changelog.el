@@ -96,11 +96,14 @@
           (format "%s\n\n%s\n" heading formatted-list))))))
 
 (defun conventional-changelog-get-current-version (working-directory)
-  (let ((content (with-temp-buffer
-                   (insert-file-contents (concat working-directory "/" conventional-changelog-version-file))
-                   (buffer-string))))
-    (if (not content) '(0 0 0))
-    (mapcar 'string-to-number (split-string content "\\." t))))
+  (let ((content
+         (with-temp-buffer
+           (condition-case nil
+               (insert-file-contents (concat working-directory "/" conventional-changelog-version-file))
+             (error nil))
+           (buffer-string))))
+    (if (string= "" content) '(0 0 0)
+      (mapcar 'string-to-number (split-string content "\\." t)))))
 
 (defun conventional-changelog-save-current-version (working-directory version)
   (with-temp-file (concat working-directory "/" conventional-changelog-version-file)
@@ -131,14 +134,14 @@
              'null
              (mapcar
               (lambda (elt)
-               (let* ((heading (car elt))
-                      (conf (cdr elt))
-                      (priority (car conf))
-                      (filter (car (cdr conf)))
-                      (changes (conventional-changelog-filter-format-list
-                                (format "*** %s" heading)
-                                filter changes)))
-                 (if changes (list priority changes) ())))
+                (let* ((heading (car elt))
+                       (conf (cdr elt))
+                       (priority (car conf))
+                       (filter (car (cdr conf)))
+                       (changes (conventional-changelog-filter-format-list
+                                 (format "*** %s" heading)
+                                 filter changes)))
+                  (if changes (list priority changes) ())))
               conventional-changelog-items)))))
     (if (null formatted) (message "No committed changes found")
       (let ((version (conventional-changelog-increase-version current-version formatted)))
@@ -155,11 +158,9 @@
             (insert (format "* %s\n\n" conventional-changelog-top-heading))))
 
         ;; Insert heading of new version
-        (insert (format "** [%s] v%i.%i.%i\n\n"
+        (insert (format "** [%s] v%s\n\n"
                         (format-time-string "%Y-%m-%d")
-                        (nth 0 version)
-                        (nth 1 version)
-                        (nth 2 version)))
+                        (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
 
         ;; Insert changes
         (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
