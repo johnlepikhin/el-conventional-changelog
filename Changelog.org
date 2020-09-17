@@ -1,23 +1,8 @@
 * Changelog
-** [2020-09-17] v0.1.1
 
-*** Bugfixes
-
- - Add "Other changes" into conventional-changelog-items (470162f)
-
-*** Other changes
-
- - Testing "other changes" (6289035)
-
-
-** [2020-09-17] v0.1.0
+** [2020-09-17] v0.2.0
 
 *** New features
 
- - Initial release (369710f)
-
-*** Bugfixes
-
- - Format version correctly, do not throw if VERSION doesn't exist (a59ad12)
-
+ - Commit automatically, create tag (f43c202)
 
