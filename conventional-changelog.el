@@ -152,30 +152,26 @@
     (if (null formatted) (message "No committed changes found")
       (let* ((version (conventional-changelog-increase-version current-version formatted))
              (version-string (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
-        (with-temp-buffer
-          (condition-case nil
-              (insert-file-contents (concat working-directory "/" conventional-changelog-file))
-            (error nil))
-          (org-mode)
+        (find-file (concat working-directory "/" conventional-changelog-file))
 
-          ;; Go to position right after top heading
-          (let ((changelog-pos (org-find-exact-headline-in-buffer conventional-changelog-top-heading)))
-            (if changelog-pos
-                (progn
-                  (goto-char changelog-pos)
-                  (end-of-line)
-                  (insert "\n"))
-              (insert (format "* %s\n\n" conventional-changelog-top-heading)))
+        ;; Go to position right after top heading
+        (let ((changelog-pos (org-find-exact-headline-in-buffer conventional-changelog-top-heading)))
+          (if changelog-pos
+              (progn
+                (goto-char changelog-pos)
+                (end-of-line)
+                (insert "\n"))
+            (insert (format "* %s\n\n" conventional-changelog-top-heading)))
 
-            ;; Insert heading of new version
-            (insert (format "** [%s] v%s\n\n" (format-time-string "%Y-%m-%d") version-string))
+          ;; Insert heading of new version
+          (insert (format "** [%s] v%s\n\n" (format-time-string "%Y-%m-%d") version-string))
 
-            ;; Insert changes
-            (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
+          ;; Insert changes
+          (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
 
-            ;; Save updated version into the file
-            (conventional-changelog-save-current-version working-directory version))
-          (save-buffer))
+          ;; Save updated version into the file
+          (conventional-changelog-save-current-version working-directory version))
+        (save-buffer)
 
         ;; Create commit
         (shell-command-to-string
