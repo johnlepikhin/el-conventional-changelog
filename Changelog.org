@@ -1,4 +1,15 @@
 * Changelog
+** [2020-09-17] v0.2.6
+
+*** Bugfixes
+
+ - Save buffer before closing (6b27292)
+ - Do not wipeout previous change (c721e17)
+
+*** Other changes
+
+ - Release v0.2.2 (beda65b)
+
 
 ** [2020-09-17] v0.2.1
 
