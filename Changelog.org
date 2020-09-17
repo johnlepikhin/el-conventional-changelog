@@ -3,10 +3,10 @@
 
 *** New features
 
- - Initial release [[369710f2bb146295f851719422e3f560e45afa69]]
+ - Initial release (369710f)
 
 *** Bugfixes
 
- - Format version correctly, do not throw if VERSION doesn't exist ( a59ad122806a7576a87e1f5817b1828ec4a87868 )
+ - Format version correctly, do not throw if VERSION doesn't exist (a59ad12)
 
 
