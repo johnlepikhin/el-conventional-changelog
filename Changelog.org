@@ -1,8 +1,8 @@
 * Changelog
 
-** [2020-09-17] v0.2.0
+** [2020-09-17] v0.2.1
 
-*** New features
+*** Bugfixes
 
- - Commit automatically, create tag (f43c202)
+ - That code was unable to work (2a364ed)
 
