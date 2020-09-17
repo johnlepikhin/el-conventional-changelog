@@ -151,8 +151,11 @@
               conventional-changelog-items)))))
     (if (null formatted) (message "No committed changes found")
       (let* ((version (conventional-changelog-increase-version current-version formatted))
-            (version-string (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
-        (with-temp-file (concat working-directory "/" conventional-changelog-file)
+             (version-string (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
+        (with-temp-buffer
+          (condition-case nil
+              (insert-file-contents (concat working-directory "/" conventional-changelog-file))
+            (error nil))
           (org-mode)
 
           ;; Go to position right after top heading
