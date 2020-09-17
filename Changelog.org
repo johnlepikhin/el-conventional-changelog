@@ -1,4 +1,15 @@
 * Changelog
+** [2020-09-17] v0.1.1
+
+*** Bugfixes
+
+ - Add "Other changes" into conventional-changelog-items (470162f)
+
+*** Other changes
+
+ - Testing "other changes" (6289035)
+
+
 ** [2020-09-17] v0.1.0
 
 *** New features
