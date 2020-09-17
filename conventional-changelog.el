@@ -175,4 +175,5 @@
         (conventional-changelog-save-current-version working-directory version)))))
 
 (provide 'conventional-changelog)
+
 ;;; conventional-changelog.el ends here
