@@ -1,0 +1,12 @@
+* Changelog
+** [2020-09-17] v0.1.0
+
+*** New features
+
+ - Initial release (369710f)
+
+*** Bugfixes
+
+ - Format version correctly, do not throw if VERSION doesn't exist (a59ad12)
+
+
