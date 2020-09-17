@@ -23,7 +23,13 @@
 (defcustom conventional-changelog-items
   '(("BREAKING CHANGES" . (0 (lambda (elt) (gethash "breaking-changes" elt))))
     ("New features" . (1 (lambda (elt) (string= (gethash "type" elt "") "feat"))))
-    ("Bugfixes" . (2 (lambda (elt) (string= (gethash "type" elt "") "fix")))))
+    ("Bugfixes" . (2 (lambda (elt) (string= (gethash "type" elt "") "fix"))))
+    ("Other changes"
+     . (2 (lambda (elt)
+            (and
+             (not (gethash "breaking-changes" elt))
+             (not (string= (gethash "type" elt "") "feat"))
+             (not (string= (gethash "type" elt "") "fix")))))))
   "Types of changes."
   :group 'ccl
   :type '(list))
