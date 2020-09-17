@@ -174,7 +174,8 @@
             (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
 
             ;; Save updated version into the file
-            (conventional-changelog-save-current-version working-directory version)))
+            (conventional-changelog-save-current-version working-directory version))
+          (save-buffer))
 
         ;; Create commit
         (shell-command-to-string
