@@ -151,28 +151,42 @@
               conventional-changelog-items)))))
     (if (null formatted) (message "No committed changes found")
       (let ((version (conventional-changelog-increase-version current-version formatted)))
-        (find-file (concat working-directory "/" conventional-changelog-file))
-        (org-mode)
+        (with-temp-file (concat working-directory "/" conventional-changelog-file)
+          (org-mode)
 
-        ;; Go to position right after top heading
-        (let ((changelog-pos (org-find-exact-headline-in-buffer conventional-changelog-top-heading)))
-          (if changelog-pos
-              (progn
-                (goto-char changelog-pos)
-                (end-of-line)
-                (insert "\n"))
-            (insert (format "* %s\n\n" conventional-changelog-top-heading))))
+          ;; Go to position right after top heading
+          (let ((changelog-pos (org-find-exact-headline-in-buffer conventional-changelog-top-heading))
+                (version-string (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
+            (if changelog-pos
+                (progn
+                  (goto-char changelog-pos)
+                  (end-of-line)
+                  (insert "\n"))
+              (insert (format "* %s\n\n" conventional-changelog-top-heading))))
 
-        ;; Insert heading of new version
-        (insert (format "** [%s] v%s\n\n"
-                        (format-time-string "%Y-%m-%d")
-                        (string-join (mapcar (lambda (elt) (format "%i" elt)) version) ".")))
+          ;; Insert heading of new version
+          (insert (format "** [%s] v%s\n\n" (format-time-string "%Y-%m-%d") version-string))
 
-        ;; Insert changes
-        (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
+          ;; Insert changes
+          (mapcar (lambda (elt) (insert (car (cdr elt)))) formatted)
 
-        ;; Save updated version into the file
-        (conventional-changelog-save-current-version working-directory version)))))
+          ;; Save updated version into the file
+          (conventional-changelog-save-current-version working-directory version))
+
+        ;; Create commit
+        (shell-command-to-string
+         (format "git -C %s add %s %s"
+                 (shell-quote-argument working-directory)
+                 (shell-quote-argument conventional-changelog-file)
+                 (shell-quote-argument conventional-changelog-version-file)))
+        (shell-command-to-string
+         (format "git -C %s commit -m %s"
+                 (shell-quote-argument working-directory)
+                 (shell-quote-argument (format "Release v%s" version-string))))
+        (shell-command-to-string
+         (format "git -C %s tag %s"
+                 (shell-quote-argument working-directory)
+                 (shell-quote-argument (format "v%s" version-string))))))))
 
 (provide 'conventional-changelog)
 
