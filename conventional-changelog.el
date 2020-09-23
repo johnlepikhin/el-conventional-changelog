@@ -51,6 +51,10 @@
              (shell-quote-argument working-directory)
              range))))
 
+(defun conventional-changelog-get-rootdir ()
+  "Return last commit for conventional-changelog-file in WORKING-DIRECTORY."
+  (string-trim (shell-command-to-string "git rev-parse --show-toplevel")))
+
 (defun conventional-changelog-commit-parse-line (line)
   (save-match-data
     (and (string-match "^\\([^ ]+\\) \\([^ ]+\\) \\(.+\\)" line)
@@ -130,7 +134,7 @@
 
 (defun conventional-changelog (&optional working-directory)
   (interactive)
-  (or working-directory (setq working-directory "."))
+  (or working-directory (setq working-directory (conventional-changelog-get-rootdir)))
   (let* ((current-version (conventional-changelog-get-current-version working-directory))
          (first-commit (conventional-changelog-get-first-commit working-directory))
          (changes (conventional-changelog-get-changes-list first-commit working-directory))
