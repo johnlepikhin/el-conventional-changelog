@@ -1,4 +1,11 @@
 * Changelog
+** [2020-09-23] v0.2.8
+
+*** Bugfixes
+
+ - Ask git for repository's root directory (9ac656d)
+
+
 ** [2020-09-17] v0.2.7
 
 *** Bugfixes
