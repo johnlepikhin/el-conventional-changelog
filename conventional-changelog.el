@@ -1,6 +1,6 @@
-;;; conventional-changelog --- Conventional changelogs generator
+;;; conventional-changelog.el --- Conventional changelogs generator
 
-;;; Commentary:
+;;; Author: Evgenii Lepikhin <johnlepikhin at gmail com>
 ;;; Inspired by https://github.com/conventional-changelog/standard-version
 
 ;;; Code:
